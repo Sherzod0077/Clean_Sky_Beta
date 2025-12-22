@@ -1,0 +1,7 @@
+{
+  "name": "CleanSky AI",
+  "description": "Advanced Air Quality Index (AQI) monitor with Gemini AI analysis, weather forecasting, and crowdsourcing capabilities.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
