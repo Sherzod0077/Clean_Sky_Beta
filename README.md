@@ -1,79 +1,190 @@
-# Clean_Sky_Beta
-Beta version of an air quality monitoring app using NASA satellite data to estimate city-level AQI. The system aggregates regional geospatial data and applies rule-based logic to generate clear health recommendations. Developed as an independent project focused on environmental monitoring and data-driven decision support.
-Motivation
+# CleanSky
 
-The project was inspired by growing environmental concerns in Uzbekistan, particularly the visible degradation of air and water quality in urban areas. While air pollution data exists in global satellite datasets, it is rarely presented in a form that is accessible or actionable for local populations.
+**From EarthData to Action — Cleaner, Safer Skies**
 
-This project aims to bridge that gap by transforming raw satellite data into city-level Air Quality Index (AQI) estimates and practical recommendations.
+CleanSky is an interactive web application that provides real-time air quality and weather information for any location worldwide. Click anywhere on the map to instantly view air quality measurements, weather conditions, and 14-day forecasts.
 
-Data Sources
+![CleanSky Interface](https://img.shields.io/badge/Status-Active-success?style=flat-square)
+![Python](https://img.shields.io/badge/Python-3.12+-blue?style=flat-square)
+![FastAPI](https://img.shields.io/badge/FastAPI-Latest-009688?style=flat-square)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
 
-NASA satellite air pollution datasets
-Used as the primary source of atmospheric data.
-The data is regional in nature and requires aggregation before being applied at the city level.
+---
 
-System Design
+## Features
 
-The application follows a simple, modular architecture:
+### 🌫️ Real-Time Air Quality Data
 
-Data Collection
-Satellite air quality data is retrieved from NASA datasets.
+* **PM2.5, PM10, NO₂** measurements from global monitoring stations
+* **AQI (Air Quality Index)** calculation with color-coded health indicators
+* **Health Recommendations** based on current air quality levels
+* Location-based data powered by Open-Meteo Air Quality API
 
-Geospatial Processing
-Regional satellite data is aggregated and mapped to city boundaries to produce approximate city-level AQI values.
+### ☀️ Weather & Forecasting
 
-Decision Logic
-AQI values are classified using predefined health thresholds to determine pollution levels and associated risks.
+* **Current weather conditions** including temperature and wind speed
+* **14-day temperature forecast** with interactive charts
+* **Precipitation data** for planning outdoor activities
 
-Natural Language Output
-Google Gemini is used to generate clear, human-readable health recommendations based on structured AQI data.
+### 🗺️ Interactive Map Interface
 
-Key Features
+* **Click anywhere** on the map to set your location
+* **Automatic location detection** with geolocation support
+* **Reverse geocoding** to display city and country names
+* **Marker on click** so you can see exactly where you selected
 
-Satellite-based air quality data processing
+---
 
-City-level AQI estimation through spatial aggregation
+## Technologies Used
 
-Rule-based health risk categorization
+### Backend
 
-AI-assisted generation of user-friendly recommendations
+* **FastAPI** - Modern Python web framework for APIs
+* **Uvicorn** - ASGI server for production-ready deployment
+* **Requests** - HTTP library for external API calls
 
-Focus on clarity and accessibility rather than raw data display
+### Frontend
 
-Technical Challenges
+* **Leaflet.js** - Interactive mapping library
+* **Chart.js** - Beautiful data visualization
+* **Tailwind CSS** - Utility-first CSS framework
+* **Vanilla JavaScript** - Lightweight, no heavy frameworks
 
-One of the main challenges was handling geospatial data correctly.
-Early versions of the system treated regional satellite readings as point-specific city data, which led to inaccurate results.
+### External APIs (All Free, No Authentication Required)
 
-Solving this required redesigning the backend logic to properly aggregate geographic data and align it with administrative boundaries. This experience highlighted the difference between theoretical data handling and real-world environmental systems.
+* **Open-Meteo Air Quality API** - Real-time air quality data
+* **Open-Meteo Weather API** - Weather and forecast data
+* **Nominatim/OpenStreetMap** - Reverse geocoding for location names
 
-Project Status
+---
 
-🚧 Beta version
+## Installation & Setup
 
-Limited number of supported cities
+### Prerequisites
 
-Accuracy depends on satellite data resolution
+* Python 3.12 or higher
+* [uv](https://github.com/astral-sh/uv) (recommended) or pip
 
-Further validation and scaling are planned
+### Quick Start
 
-Future Improvements
+1. **Clone the repository**
 
-Expanding city coverage
+   ```bash
+   git clone <repository-url>
+   cd CleanSky
+   ```
 
-Improving spatial resolution and aggregation methods
+2. **Install dependencies**
 
-Deploying the system using cloud infrastructure
+   #### Option 1 — Using uv (recommended)
 
-Integrating additional environmental data sources
+   ```bash
+   uv sync
+   ```
 
-Disclaimer
+   #### Option 2 — Using pip
 
-This project is intended for educational and experimental purposes only.
-All AQI values are estimates derived from publicly available satellite data and should not be considered official or medical advice.
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-Author
+3. **Activate virtual environment** (important!)
 
-Bobojonov Sherzod
-Computer Science applicant
-Interest areas: data-driven systems, environmental monitoring, decision support systems
+   ```bash
+   source .venv/bin/activate   # Linux / macOS
+   .venv\Scripts\activate      # Windows PowerShell
+   ```
+
+4. **Run the application with Uvicorn**
+
+   ```bash
+   uvicorn main:app --reload --host 0.0.0.0 --port 8000
+   ```
+
+   > ⚠️ Do not run `python main.py` directly — FastAPI apps need to be served with **uvicorn**.
+
+5. **Open your browser**
+
+   ```
+   http://localhost:8000
+   ```
+
+---
+
+## Project Structure
+
+```
+CleanSky/
+├── main.py              # FastAPI backend server
+├── static/
+│   └── index.html       # Single-page frontend application
+├── pyproject.toml       # Python dependencies (for uv)
+├── requirements.txt     # Fallback dependencies (for pip)
+├── .gitignore           # Git ignore rules
+└── README.md            # This file
+```
+
+---
+
+## Usage
+
+* Default location: **Tashkent, Uzbekistan**
+* Click anywhere on the map to fetch air quality & weather for that point
+* Use "📍 Use My Location" to detect your position
+* AQI widget updates with color-coded status and health recommendations
+
+---
+---
+
+## Troubleshooting
+
+* **`ModuleNotFoundError: No module named 'fastapi'`**
+  → You forgot to activate the virtual environment. Run:
+
+  ```bash
+  source .venv/bin/activate   # Linux / macOS
+  .venv\Scripts\activate      # Windows
+  ```
+
+* **`pip` or `uv` not recognized**
+
+  * Make sure Python is installed and added to your PATH.
+  * On Linux/macOS you can try:
+
+    ```bash
+    python3 -m pip install -r requirements.txt
+    ```
+  * On Windows you can try:
+
+    ```powershell
+    py -m pip install -r requirements.txt
+    ```
+  * For uv installation, follow: [https://github.com/astral-sh/uv](https://github.com/astral-sh/uv)
+
+* **Blank page**
+  → Make sure you’re visiting `http://localhost:8000` (not `5000`).
+
+* **Still doesn’t work?**
+  Try reinstalling dependencies:
+
+  ```bash
+  rm -rf .venv
+  uv sync
+  ```
+
+  or
+
+  ```bash
+  pip install --upgrade pip setuptools wheel
+  pip install -r requirements.txt
+  ```
+
+---
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+---
+
+**Made with ❤️ for cleaner air and healthier communities**
